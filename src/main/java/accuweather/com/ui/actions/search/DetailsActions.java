@@ -5,6 +5,8 @@ import accuweather.com.ui.pages.search.DetailsPage;
 import accuweather.com.ui.utilites.ActionUtils;
 import org.openqa.selenium.support.PageFactory;
 
+import java.math.BigDecimal;
+
 public class DetailsActions extends DetailsPage {
 
     public DetailsActions()
@@ -26,10 +28,10 @@ public class DetailsActions extends DetailsPage {
         actionUtils.waitForVisibilityOfElement(moreDetailsImagesClick);
         this.moreDetailsImagesClick.click();
     }
-    public Double getCityTemp()
+    public BigDecimal getCityTemp()
     {
         actionUtils.waitForVisibilityOfElement(displayTempText);
-        return Double.parseDouble(this.displayTempText.getText().replace("°","").replace("C",""));
+        return BigDecimal.valueOf(Double.parseDouble(this.displayTempText.getText().replace("°","").replace("C","")));
     }
 
 }
