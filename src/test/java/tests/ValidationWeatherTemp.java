@@ -1,5 +1,6 @@
 package tests;
 
+import accuweather.com.api.servicesteps.OpenWeatherMapAPIStep;
 import accuweather.com.ui.actions.search.DetailsActions;
 import accuweather.com.ui.actions.search.SearchActions;
 import accuweather.com.ui.utilites.PropertyLoad;
@@ -17,30 +18,28 @@ public class ValidationWeatherTemp {
     public DetailsActions detailsActions;
     public WeatherReportComparator reportComparator;
 
-
-    public PropertyLoad propertyLoad;
+    /*API Step*/
+    OpenWeatherMapAPIStep openWeatherMapAPIStep=new OpenWeatherMapAPIStep();
 
     @BeforeTest
     public void initialSetUp()
     {
         reportComparator = new WeatherReportComparator();
-        try {
-            propertyLoad =new PropertyLoad();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Test
     public void testTempValidation()
     {
+        String city = "Bangalore";
         searchActions = new SearchActions();
-        searchActions.openUrl(propertyLoad.getProperties().getProperty("url.accuweather"));
-        detailsActions = searchActions.searchCity("Bangalore");
+        searchActions.openUrl(PropertyLoad.getProperties().getProperty("url.accuweather"));
+        detailsActions = searchActions.searchCity(city);
         detailsActions.clickDMoreDetailsImageLink();
         //detailsActions.clickDMoreDetailsLink();
         Double temp = detailsActions.getCityTemp();
         System.out.println("temp :"+ temp);
+        openWeatherMapAPIStep.postCityAndAPPIDCall(city);
        // reportComparator.compare(detailsActions.getCityTemp(),26.00);
     }
 

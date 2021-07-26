@@ -6,23 +6,34 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertyLoad {
-    private String filePath=".//src//main//resources//env.properties";
-    private FileReader fileReader;
 
-    private Properties properties=new Properties();
 
-    public PropertyLoad() throws IOException {
-        FileReader fileReader = new FileReader(filePath);
-        properties.load(fileReader);
+    private static  String filePath=".//src//main//resources//env.properties";
+    private static FileReader fileReader;
+
+    private static Properties properties=new Properties();
+
+    static {
+        FileReader fileReader = null;
+        try {
+            fileReader = new FileReader(filePath);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+            properties.load(fileReader);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    public Properties getProperties() {
+    public static Properties getProperties() {
         return properties;
     }
 
-    public void setProperties(Properties properties) {
-        this.properties = properties;
+    public static void setProperties(Properties localProperties) {
+         properties = localProperties;
     }
 
 }
