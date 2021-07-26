@@ -4,6 +4,7 @@ import accuweather.com.ui.utilites.BrowserName;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.util.concurrent.TimeUnit;
@@ -12,17 +13,20 @@ public class BasePage {
 
     private static WebDriver driver;
 
-    public  BasePage()
+    static
     {   // Default Chrome
-       this.setUpBrowser("chrome");
+        setUpBrowser("chrome");
     }
 
-    public void setUpBrowser(String browserName )
+    public static void setUpBrowser(String browserName )
     {
         if (BrowserName.CHROME.getBrowserName().equalsIgnoreCase(browserName))
         {
             WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+            ChromeOptions options=new ChromeOptions();
+            options.addArguments("--disable-notifications");
+            options.addArguments("--disable-popup-blocking");
+            driver = new ChromeDriver(options);
          }
          else if(BrowserName.FIREFOX.getBrowserName().equalsIgnoreCase(browserName))
         {
@@ -39,7 +43,7 @@ public class BasePage {
         BasePage.driver = driver;
     }
 
-    public void openUrl(String url)
+    public static void openUrl(String url)
     {
         driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);

@@ -15,13 +15,15 @@ public class ValidationWeatherTemp {
 
     public SearchActions  searchActions;
     public DetailsActions detailsActions;
-    public WeatherReportComparator reportComparator = new WeatherReportComparator();
+    public WeatherReportComparator reportComparator;
+
 
     public PropertyLoad propertyLoad;
 
     @BeforeTest
     public void initialSetUp()
     {
+        reportComparator = new WeatherReportComparator();
         try {
             propertyLoad =new PropertyLoad();
         } catch (IOException e) {
@@ -35,14 +37,16 @@ public class ValidationWeatherTemp {
         searchActions = new SearchActions();
         searchActions.openUrl(propertyLoad.getProperties().getProperty("url.accuweather"));
         detailsActions = searchActions.searchCity("Bangalore");
-        detailsActions.clickDMoreDetailsLink();
+        detailsActions.clickDMoreDetailsImageLink();
+        //detailsActions.clickDMoreDetailsLink();
+        Double temp = detailsActions.getCityTemp();
+        System.out.println("temp :"+ temp);
        // reportComparator.compare(detailsActions.getCityTemp(),26.00);
     }
 
     @AfterMethod
     public void closeSetup() throws IOException {
         searchActions.closeBrowser();
-        propertyLoad.closeFiles();
     }
 
 }
