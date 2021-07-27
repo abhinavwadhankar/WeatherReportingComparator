@@ -1,6 +1,7 @@
 package tests;
 
 import accuweather.com.api.servicesteps.OpenWeatherMapAPIStep;
+import accuweather.com.ui.actions.CommonActions;
 import accuweather.com.ui.actions.search.DetailsActions;
 import accuweather.com.ui.actions.search.SearchActions;
 import accuweather.com.ui.utilites.PropertyLoad;
@@ -21,6 +22,7 @@ public class ValidationWeatherTemp {
     public DetailsActions detailsActions;
     public WeatherReportComparator reportComparator;
     public OpenWeatherMapAPIStep weatherMapAPIStep;
+    public CommonActions commonActions;
     public String city = "Bangalore";
 
     /*API Step*/
@@ -30,6 +32,7 @@ public class ValidationWeatherTemp {
     public void initialSetUp()
     {
         reportComparator = new WeatherReportComparator();
+        commonActions = new CommonActions();
     }
 
     @Test
@@ -40,6 +43,10 @@ public class ValidationWeatherTemp {
         searchActions.openUrl(PropertyLoad.getProperties().getProperty("url.accuweather"));
         detailsActions = searchActions.searchCity(city);
         detailsActions.clickDMoreDetailsImageLink();
+
+        /*Close Advertise Window*/
+        commonActions.closeAdvertiseWindow();
+
         BigDecimal tempUI = detailsActions.getCityTemp();
         System.out.println("temp :"+ tempUI);
         openWeatherMapAPIStep.getCityAndAPPIDCall(city);

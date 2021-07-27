@@ -22,6 +22,19 @@ public class ActionUtils extends BasePage{
         }
     }
 
+    public Boolean checkVisibilityOfElement(WebElement element)
+    {
+        WebDriverWait driverWait = new WebDriverWait(this.getDriver(),10);
+        try {
+            return driverWait.until(ExpectedConditions.invisibilityOf(element));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Element is visible");
+            return Boolean.FALSE;
+        }
+    }
+
     public void threadSleepMilliSeconds(int time)
     {
         try {
